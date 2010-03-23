@@ -4,6 +4,7 @@ HTTP_UrlSigner: test URL to URI conversion
 <?php
 require dirname(__FILE__) . '/init.php';
 
+$signer->callGetUriByUrl("//example.com");
 $signer->callGetUriByUrl("http://example.com");
 $signer->callGetUriByUrl("http://example.com?");
 $signer->callGetUriByUrl("http://example.com/");
@@ -16,6 +17,7 @@ $signer->callGetUriByUrl("abc?a=b&c");
 ?>
 
 --EXPECT--
+getUriByUrl: //example.com -> 
 getUriByUrl: http://example.com -> 
 getUriByUrl: http://example.com? -> ?
 getUriByUrl: http://example.com/ -> /

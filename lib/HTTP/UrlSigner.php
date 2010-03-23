@@ -18,7 +18,7 @@
  * Base URL (passed to the constructor) may be relative or absolute.
  * URL to be parsed may also be passed as relative or absolute.
  * 
- * @version 1.00
+ * @version 1.01
  */
 class HTTP_UrlSigner
 {
@@ -158,7 +158,7 @@ class HTTP_UrlSigner
 	protected function _getUriByUrl($url)
 	{
 		$m = null;
-		if (preg_match('{^\w+://[^/?]+(.*)$}s', $url, $m)) {
+		if (preg_match('{^(?:\w+:)?//[^/?]+(.*)$}s', $url, $m)) {
 			return $m[1];
 		}
 		return $url;
@@ -179,8 +179,9 @@ class HTTP_UrlSigner
     	if ($this->_maskPrefix === $this->_maskPrefixFull) {
     		$url = $this->_getUriByUrl($url);
     	}
+    	$hasProtocol = preg_match('{^(\w+:)?//}s', $url); 
 		$re = '^(' . 
-			(preg_match('{^\w+://}s', $url)? preg_quote($this->_substr($this->_maskPrefixFull, 0, -$this->_strlen($this->_maskPrefix)), '/') : "") . 
+			($hasProtocol? preg_quote($this->_substr($this->_maskPrefixFull, 0, -$this->_strlen($this->_maskPrefix)), '/') : "") . 
 			"(" . preg_quote($this->_maskPrefix, '/') . ")" .
 			")(.+)(" . preg_quote($this->_maskSuffix, '/') . ')$';
 		if (!preg_match("/$re/s", $url, $m)) {
